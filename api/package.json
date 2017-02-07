@@ -1,0 +1,22 @@
+{
+  "name": "gosa-api",
+  "version": "1.0.0",
+  "description": "api for Github Organisation Subscription Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "restify",
+    "nodejs",
+    "javascript",
+    "api"
+  ],
+  "author": "beppek",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "restify": "^4.3.0"
+  }
+}
