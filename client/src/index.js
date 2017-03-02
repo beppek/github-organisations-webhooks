@@ -10,8 +10,13 @@ import App from "./App";
 import Login from "./Components/Login/Login";
 import "./index.css";
 
+import IFirebase from "./Firebase/FirebaseInterface";
+const firebase = new IFirebase();
+
+firebase.init();
+
 function checkAuth() {
-  let loggedIn = false;
+  let loggedIn = true;
   if (!loggedIn) {
     browserHistory.push("/login");
   }
