@@ -2,7 +2,8 @@
     "env": {
         "browser": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "jest": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -17,13 +18,16 @@
         "react"
     ],
     "rules": {
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error",
         "indent": [
             "off",
             "tab"
         ],
+        "no-unused-vars": "warn",
         "no-console":0,
         "linebreak-style": [
-            "error",
+            "off",
             "windows"
         ],
         "quotes": [

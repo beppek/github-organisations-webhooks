@@ -15,8 +15,9 @@ server.use(bodyParser.json());
 server.get("/hello/:name", respond);
 server.head("/hello/:name", respond);
 server.post("/payload", function(req, res, next) {
-    // console.log(req.body);
-    console.log(req.body.action);
+    console.log(req.headers);
+    console.log("Event: " + req.headers["x-github-event"]);
+    // console.log(req.body.action);
 });
 
 server.listen(4567, function() {
