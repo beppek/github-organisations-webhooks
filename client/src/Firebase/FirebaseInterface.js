@@ -8,20 +8,45 @@ class FirebaseInterface {
     }
 
     authenticate() {
-        let provider = new firebase.auth.GithubAuthProvider();
-        provider.addScope("user repo admin:org_hook");
-        firebase.auth().signInWithRedirect(provider);
-    }
-
-    getRedirectResult() {
         return new Promise((resolve, reject) => {
-            firebase.auth().getRedirectResult().then((result) => {
+            let provider = new firebase.auth.GithubAuthProvider();
+            provider.addScope("user repo admin:org_hook");
+            firebase.auth().signInWithPopup(provider).then((result) => {
                 resolve(result);
             })
             .catch((error) => {
                 reject(error);
             });
         });
+    }
+
+    signout() {
+        return new Promise((resolve, reject) => {
+            firebase.auth().signOut().then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    getRedirectResult() {
+        return new Promise((resolve, reject) => {
+            firebase.auth().getRedirectResult().then((result) => {
+                if (!result.user) {
+                    reject("no user");
+                }
+                resolve(result);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    handleLoggedIn(result) {
+        // console.log(result);
     }
 
 

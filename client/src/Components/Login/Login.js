@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {browserHistory} from "react-router";
-import FontIcon from 'material-ui/FontIcon';
-import {blueGrey500} from 'material-ui/styles/colors';
+import FontIcon from "material-ui/FontIcon";
+import {blueGrey500} from "material-ui/styles/colors";
 
 import IFirebase from "../../Firebase/FirebaseInterface";
 const firebase = new IFirebase();
@@ -10,39 +10,45 @@ import "./Login.css";
 
 class Login extends Component {
 
-    componentWillMount () {
-        firebase.getRedirectResult().then((result) => {
-            console.log(result);
-            if (result.credential) {
-                console.log("logged in!");
-            }
+    login() {
+        this.setState({
+            loading: true
+        });
+        firebase.authenticate().then((result) => {
+            firebase.handleLoggedIn(result);
+            localStorage.setItem("token", result.credential.accessToken);
+            localStorage.setItem("username", result.user.displayName);
+            localStorage.setItem("uid", result.user.uid);
+            browserHistory.push("/");
         })
         .catch((error) => {
             console.log(error);
         });
     }
 
-
-    login() {
-        console.log("logging in");
-        firebase.authenticate();
-    }
-
     render() {
-        const styles = {
+        const buttonStyles = {
             fontSize:250,
             color: blueGrey500,
-            cursor: "pointer"
+        };
+        const divStyles = {
+            cursor: "pointer",
+            display: "inline-block",
+            position: "absolute",
+            top: "50%",
+            transform: "translateY(-50%) translateX(-50%)",
+            textAlign: "center"
         };
 
         return (
             <div className="Login">
-                <h1>Begin Here</h1>
-                <FontIcon
-                    className="fa fa-github-square"
-                    style={styles}
-                    onClick={() => this.login()}
-                />
+                <div className="startDiv" style={divStyles} onClick={() => this.login()}>
+                    <h1>Start here</h1>
+                    <FontIcon
+                        className="startBtn fa fa-github-square"
+                        style={buttonStyles}
+                    />
+                </div>
             </div>
         );
     }

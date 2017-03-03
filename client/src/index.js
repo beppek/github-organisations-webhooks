@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router, Route, IndexRedirect, browserHistory } from "react-router";
+import { Router, Route, browserHistory } from "react-router";
 import injectTapEventPlugin from "react-tap-event-plugin";
 import darkBaseTheme from "material-ui/styles/baseThemes/darkBaseTheme";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
@@ -14,9 +14,17 @@ import IFirebase from "./Firebase/FirebaseInterface";
 const firebase = new IFirebase();
 
 firebase.init();
+injectTapEventPlugin();
 
 function checkAuth() {
-  let loggedIn = true;
+  let loggedIn = false;
+  let user = localStorage.getItem("username");
+  let uid = localStorage.getItem("uid");
+  if (user) {
+    loggedIn = true;
+  }
+  // console.log(uid);
+  // console.log(user);
   if (!loggedIn) {
     browserHistory.push("/login");
   }
