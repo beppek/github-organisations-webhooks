@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router";
 import {browserHistory} from "react-router";
 import FontIcon from "material-ui/FontIcon";
 import {BottomNavigation, BottomNavigationItem} from "material-ui/BottomNavigation";
@@ -11,6 +12,7 @@ const firebase = new IFirebase();
 const homeIcon = <FontIcon className="fa fa-home"/>;
 const orgsIcon = <FontIcon className="fa fa-github"/>;
 const logoutIcon = <FontIcon className="fa fa-power-off"/>;
+const settingsIcon = <FontIcon className="fa fa-sliders"/>;
 
 class Menu extends Component {
 
@@ -45,16 +47,25 @@ class Menu extends Component {
                         label="Home"
                         icon={homeIcon}
                         onTouchTap={() => this.select(0)}
+                        containerElement={<Link to="/"/>}
                     />
                     <BottomNavigationItem
                         label="Organisations"
                         icon={orgsIcon}
                         onTouchTap={() => this.select(1)}
+                        containerElement={<Link to="/orgs"/>}
+                    />
+                    <BottomNavigationItem
+                        label="Settings"
+                        icon={settingsIcon}
+                        onTouchTap={() => this.select(2)}
+                        containerElement={<Link to="/settings"/>}
                     />
                     <BottomNavigationItem
                         label="Sign Out"
                         icon={logoutIcon}
                         onTouchTap={() => this.signout()}
+                        containerElement={<Link to="/"/>}
                     />
                 </BottomNavigation>
             </Paper>

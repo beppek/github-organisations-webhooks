@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import Avatar from 'material-ui/Avatar';
-import Chip from 'material-ui/Chip';
+import Avatar from "material-ui/Avatar";
+import Chip from "material-ui/Chip";
+import {Card, CardActions, CardHeader} from "material-ui/Card";
 
 class OrgChips extends Component {
 
     handleTouchTap(org) {
-        console.log(`clicked ${org}`);
+        this.props.onTouchTap(org);
     }
 
     render() {
@@ -14,14 +15,13 @@ class OrgChips extends Component {
                 margin: 4,
             },
             wrapper: {
-                display: 'flex',
-                flexWrap: 'wrap',
+                display: "flex",
+                flexWrap: "wrap",
             },
         };
         let chips = [];
         if (this.props.orgs.length > 0) {
                 this.props.orgs.forEach(function(org) {
-                    console.log(org);
                     chips.push(
                         <Chip
                             key={org.login}
@@ -38,9 +38,15 @@ class OrgChips extends Component {
         }
 
         return (
-            <div>
-                {chips}
-            </div>
+            <Card>
+                <CardHeader
+                    title="Organisations"
+                    subtitle="These are your organisations on Github"
+                />
+                <CardActions>
+                    {chips}
+                </CardActions>
+            </Card>
         );
     }
 }

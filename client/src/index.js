@@ -9,6 +9,8 @@ import getMuiTheme from "material-ui/styles/getMuiTheme";
 import App from "./App";
 import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
+import Orgs from "./Components/Orgs/Orgs";
+import Settings from "./Components/Settings/Settings";
 import "./index.css";
 
 import IFirebase from "./Interfaces/Firebase";
@@ -35,6 +37,8 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" onEnter={checkAuth} component={App}>
         <IndexRoute component={Home}/>
+        <Route path="/orgs" component={Orgs}/>
+        <Route path="/settings" component={Settings}/>
       </Route>
       <Route path="/login" component={Login} />
     </Router>
