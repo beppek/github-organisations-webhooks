@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import OrgChips from "../layout/OrgChips/OrgChips";
+import {browserHistory} from "react-router";
 
 import Github from "../../Interfaces/Github";
 
@@ -26,7 +27,7 @@ class Orgs extends Component {
     }
 
     handleTouchTap(org) {
-        console.log(org);
+        browserHistory.push(`/org/${org}`);
     }
 
     render() {

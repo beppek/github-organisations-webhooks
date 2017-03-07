@@ -10,6 +10,7 @@ import App from "./App";
 import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import Orgs from "./Components/Orgs/Orgs";
+import Org from "./Components/Org/Org";
 import Settings from "./Components/Settings/Settings";
 import "./index.css";
 
@@ -39,6 +40,7 @@ ReactDOM.render(
         <IndexRoute component={Home}/>
         <Route path="/orgs" component={Orgs}/>
         <Route path="/settings" component={Settings}/>
+        <Route path="/org/:org" component={Org}/>
       </Route>
       <Route path="/login" component={Login} />
     </Router>
