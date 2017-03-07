@@ -21,6 +21,7 @@ api.use(restify.CORS({
 }));
 restify.CORS.ALLOW_HEADERS.push("x-authorization");
 restify.CORS.ALLOW_HEADERS.push("x-uid");
+
 api.use(restify.fullResponse());
 api.use(bodyParser.json());
 

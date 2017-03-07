@@ -3,14 +3,11 @@ const github = require("./github");
 
 class Router {
 
-    constructor() {
-
-    }
-
     route(api) {
         ping(api);
+        github(api);
     }
 
 }
 
-export default Router;
+module.exports = Router;

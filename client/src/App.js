@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Menu from "./Components/Menu/Menu";
+import Menu from "./Components/layout/Menu/Menu";
 import RaisedButton from "material-ui/RaisedButton";
 import Request from "superagent";
 
