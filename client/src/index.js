@@ -19,12 +19,11 @@ injectTapEventPlugin();
 function checkAuth() {
   let loggedIn = false;
   let user = localStorage.getItem("username");
-  let uid = localStorage.getItem("uid");
+
   if (user) {
     loggedIn = true;
   }
-  // console.log(uid);
-  // console.log(user);
+
   if (!loggedIn) {
     browserHistory.push("/login");
   }
