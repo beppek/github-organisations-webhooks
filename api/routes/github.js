@@ -13,11 +13,13 @@ module.exports = function(api) {
      * GET /github
      */
      api.get({path: "/github/orgs"}, (req, res, next) => {
-        console.log(req.headers);
-        let data = {orgs: [1,2,3]};
-        res.send(200, data);
-        next();
-        // github.getOrgs();
+        github.getOrgs(req.headers["x-authorization"]).then((data) => {
+            res.send(200, data);
+            next();
+        })
+        .catch((error) => {
+            res.send(500, error);
+        });
      });
 
     api.get({path: "/github/orgs/webhooks"}, (req, res, next) => {

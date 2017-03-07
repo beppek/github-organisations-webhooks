@@ -8,14 +8,19 @@ import "./App.css";
 
 class App extends Component {
 
+  // componentWillMount () {
+  //   let token = localStorage.getItem("token");
+  //   let uid = localStorage.getItem("uid");
+
+  // }
+
   callAPI() {
     let token = localStorage.getItem("token");
     let uid = localStorage.getItem("uid");
-    console.log("calling API");
-    let url = "http://localhost:4567/ping";
+    let url = "http://localhost:4567/github/orgs";
     Request
       .get(url)
-      .set({"x-authorization": token, "x-uid": uid})
+      .set({ "x-authorization": token, "x-uid": uid })
       .then((response) => {
         console.log(response);
       });

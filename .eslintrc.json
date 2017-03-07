@@ -24,6 +24,7 @@
             "off",
             "tab"
         ],
+        "space-before-function-paren": ["error", "never"],
         "no-unused-vars": "warn",
         "no-console":0,
         "linebreak-style": [
