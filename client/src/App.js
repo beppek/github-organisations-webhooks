@@ -8,8 +8,7 @@ import "./App.css";
 
 class App extends Component {
 
-  callAPI(e) {
-    e.preventDefault();
+  callAPI() {
     let token = localStorage.getItem("token");
     let uid = localStorage.getItem("uid");
     console.log("calling API");
@@ -28,7 +27,7 @@ class App extends Component {
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </div>
-        <RaisedButton label="Default" onTouchTap={(e) => this.callAPI(e)} />
+        <RaisedButton label="Default" onTouchTap={() => this.callAPI()} />
         {this.props.children}
         <Menu />
       </div>
