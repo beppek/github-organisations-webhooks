@@ -1,5 +1,5 @@
 const firebase = require("firebase");
-const firebaseConfig = require("./config");
+const firebaseConfig = require("./firebase.config");
 
 class FirebaseInterface {
 
@@ -10,7 +10,7 @@ class FirebaseInterface {
     authenticate() {
         return new Promise((resolve, reject) => {
             let provider = new firebase.auth.GithubAuthProvider();
-            provider.addScope("user repo admin:org_hook");
+            provider.addScope("user repo admin:org");
             firebase.auth().signInWithPopup(provider).then((result) => {
                 resolve(result);
             })

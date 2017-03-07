@@ -3,7 +3,7 @@ import {browserHistory} from "react-router";
 import FontIcon from "material-ui/FontIcon";
 import {BottomNavigation, BottomNavigationItem} from "material-ui/BottomNavigation";
 import Paper from "material-ui/Paper";
-import IFirebase from "../../../Firebase/FirebaseInterface";
+import IFirebase from "../../../Interfaces/Firebase";
 import "./Menu.css";
 
 const firebase = new IFirebase();

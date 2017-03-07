@@ -11,7 +11,7 @@ import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import "./index.css";
 
-import IFirebase from "./Firebase/FirebaseInterface";
+import IFirebase from "./Interfaces/Firebase";
 const firebase = new IFirebase();
 
 firebase.init();
