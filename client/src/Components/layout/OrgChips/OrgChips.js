@@ -18,6 +18,14 @@ class OrgChips extends Component {
                 display: "flex",
                 flexWrap: "wrap",
             },
+            card: {
+                width: 400,
+                margin: "0 auto",
+                textAlign: "center"
+            },
+            cardHeader: {
+                textAlign: "center"
+            }
         };
         let chips = [];
         if (this.props.orgs.length > 0) {
@@ -38,12 +46,13 @@ class OrgChips extends Component {
         }
 
         return (
-            <Card>
+            <Card style={styles.card}>
                 <CardHeader
                     title="Organisations"
                     subtitle="These are your organisations on Github"
+                    style={styles.cardHeader}
                 />
-                <CardActions>
+                <CardActions style={styles.wrapper}>
                     {chips}
                 </CardActions>
             </Card>

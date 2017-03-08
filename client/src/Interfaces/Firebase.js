@@ -10,7 +10,7 @@ class FirebaseInterface {
     authenticate() {
         return new Promise((resolve, reject) => {
             let provider = new firebase.auth.GithubAuthProvider();
-            provider.addScope("user repo admin:org");
+            provider.addScope("user repo admin:org admin:org_hook");
             firebase.auth().signInWithPopup(provider).then((result) => {
                 resolve(result);
             })

@@ -15,7 +15,6 @@ class Orgs extends Component {
 
     componentWillMount() {
         let token = localStorage.getItem("token");
-        let uid = localStorage.getItem("uid");
         Github.getOrgs(token).then((result) => {
             this.setState({
                 orgs: result.body

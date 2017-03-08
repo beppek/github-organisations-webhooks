@@ -1,16 +1,8 @@
 import React, { Component } from "react";
 
-import Github from "../../Interfaces/Github";
+// import Github from "../../Interfaces/Github";
 
 class Home extends Component {
-
-    constructor() {
-        super();
-    }
-
-    componentWillMount() {
-
-    }
 
     render() {
         return (
