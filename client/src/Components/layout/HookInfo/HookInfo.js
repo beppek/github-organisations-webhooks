@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Toggle from 'material-ui/Toggle';
-import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
-import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
+import Toggle from "material-ui/Toggle";
+import Paper from "material-ui/Paper";
+import Divider from "material-ui/Divider";
+import RaisedButton from "material-ui/RaisedButton";
+import FontIcon from "material-ui/FontIcon";
 
 class HookInfo extends Component {
     render() {
@@ -35,7 +35,7 @@ class HookInfo extends Component {
                     />
                 );
                 if (i < hook.events.length -1) {
-                    toggles.push(<Divider />);
+                    toggles.push(<Divider key={i} />);
                 }
             });
         });

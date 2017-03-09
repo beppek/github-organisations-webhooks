@@ -3,8 +3,8 @@ import {browserHistory} from "react-router";
 import FontIcon from "material-ui/FontIcon";
 import {blueGrey500} from "material-ui/styles/colors";
 
-import IFirebase from "../../Interfaces/Firebase";
-const firebase = new IFirebase();
+import FirebaseInterface from "../../Interfaces/Firebase";
+const firebase = new FirebaseInterface();
 
 import "./Login.css";
 

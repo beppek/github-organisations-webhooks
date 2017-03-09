@@ -1,5 +1,5 @@
 "use strict";
-const firebase = require("../interfaces/Firebase");
+const iFirebase = require("../interfaces/Firebase");
 
 /**
  * Github Routes
@@ -13,8 +13,8 @@ module.exports = function(api) {
      */
     api.post({path: "/github/payload"}, (req, res, next) => {
         let data = req.body;
-        firebase.saveToDB("/events", data).then(() => {
-            res.send(200);
+        iFirebase.handleEvent(data).then(() => {
+            res.send(204);
             return next();
         })
         .catch((error) => {

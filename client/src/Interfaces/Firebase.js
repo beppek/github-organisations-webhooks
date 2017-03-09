@@ -49,6 +49,41 @@ class FirebaseInterface {
         // console.log(result);
     }
 
+    addHook(org, data) {
+        console.log(data);
+        return new Promise((resolve, reject) => {
+            let hookData = {
+                events: data.events
+            };
+            const dbRef = this.database.ref(`orgs/${org}/`);
+            const newRef = dbRef.child("hooks").push();
+            newRef.set(hookData).then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    saveToDB(collection, data) {
+        return new Promise((resolve, reject) => {
+            const dbRef = firebase.database.ref();
+            const newRef = dbRef.child(collection).push();
+            newRef.set(data).then((data) => {
+                resolve(data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    saveIfNotExists(collection, data) {
+        return new Promise((resolve, reject) => {
+
+        });
+    }
 
 }
 

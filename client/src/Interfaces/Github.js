@@ -1,5 +1,6 @@
 const Request = require("superagent");
 const url = "https://api.github.com/";
+const payloadUrl = "http://320542e4.ngrok.io/github/payload";
 
 class Github {
 
@@ -34,7 +35,7 @@ class Github {
     createHook(org, token, events) {
         return new Promise((resolve, reject) => {
             let config = {
-                url: "http://f25ce702.ngrok.io/github/payload",
+                url: payloadUrl,
                 content_type: "json"
             };
             Request

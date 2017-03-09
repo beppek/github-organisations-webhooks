@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import {browserHistory} from "react-router";
 import Github from "../../Interfaces/Github";
-import RaisedButton from "material-ui/RaisedButton";
 import CircularProgress from "material-ui/CircularProgress";
 import HookForm from "../layout/HookForm/HookForm";
 import HookInfo from "../layout/HookInfo/HookInfo";
+import FirebaseInterface from "../../Interfaces/Firebase";
+const firebase = new FirebaseInterface();
 
 class Org extends Component {
 
@@ -45,8 +46,10 @@ class Org extends Component {
         let token = localStorage.getItem("token");
         let org = this.props.params.org;
         Github.createHook(org, token, events).then((data) => {
+            firebase.addHook(org, data.body);
             this.setState({
-                hooks: true
+                hooks: true,
+                hookData: [data.body]
             });
         })
         .catch((error) => {
