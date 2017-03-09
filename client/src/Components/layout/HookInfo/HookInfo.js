@@ -6,6 +6,16 @@ import RaisedButton from "material-ui/RaisedButton";
 import FontIcon from "material-ui/FontIcon";
 
 class HookInfo extends Component {
+
+    handleDelete() {
+        let id = this.props.hooks[0].id;
+        this.props.handleDelete(id);
+    }
+
+    handleSave() {
+        console.log("save");
+    }
+
     render() {
         let styles = {
             paper: {
@@ -20,7 +30,10 @@ class HookInfo extends Component {
             },
             button: {
                 margin: "0 auto",
-                display: "block"
+                display: "block",
+            },
+            delete: {
+                position: "relative",
             }
         };
         let toggles = [];
@@ -41,12 +54,22 @@ class HookInfo extends Component {
         });
         return (
             <Paper style={styles.paper} zDepth={1}>
+                {this.props.admin &&
+                    <RaisedButton
+                        label="Delete"
+                        secondary={true}
+                        style={styles.delete}
+                        icon={<FontIcon className="fa fa-trash-o" />}
+                        onTouchTap={() => this.handleDelete()}
+                    />
+                }
                 {toggles}
                 <RaisedButton
-                    label="Subscribe"
+                    label="Save"
                     primary={true}
                     style={styles.button}
-                    icon={<FontIcon className="fa fa-arrow-right" />}
+                    icon={<FontIcon className="fa fa-floppy-o" />}
+                    onTouchTap={() => this.handleSave()}
                 />
             </Paper>
         );

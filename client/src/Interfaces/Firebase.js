@@ -45,19 +45,22 @@ class FirebaseInterface {
         });
     }
 
-    handleLoggedIn(result) {
-        // console.log(result);
+    handleLoggedIn(data) {
+        return new Promise((resolve, reject) => {
+            let userData = {name: data.displayName, avatar: data.photoURL, email: data.email};
+            this.saveIfNotExists(`users/${data.uid}`, userData).then((commited) => {
+                resolve(commited);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
     }
 
     addHook(org, data) {
-        console.log(data);
         return new Promise((resolve, reject) => {
-            let hookData = {
-                events: data.events
-            };
-            const dbRef = this.database.ref(`orgs/${org}/`);
-            const newRef = dbRef.child("hooks").push();
-            newRef.set(hookData).then(() => {
+            const dbRef = firebase.database().ref(`orgs/${org}/hook`);
+            dbRef.set(data).then(() => {
                 resolve();
             })
             .catch((error) => {
@@ -68,7 +71,7 @@ class FirebaseInterface {
 
     saveToDB(collection, data) {
         return new Promise((resolve, reject) => {
-            const dbRef = firebase.database.ref();
+            const dbRef = firebase.database().ref();
             const newRef = dbRef.child(collection).push();
             newRef.set(data).then((data) => {
                 resolve(data);
@@ -81,10 +84,37 @@ class FirebaseInterface {
 
     saveIfNotExists(collection, data) {
         return new Promise((resolve, reject) => {
+            const dbRef = firebase.database().ref(collection);
+            dbRef.transaction((existing) => {
+                if (existing === null) {
+                    return data;
+                } else {
+                    return;
+                }
+            }, (error, commited)=> {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(commited);
+                }
+            });
+        });
+    }
 
+    deleteRef(ref) {
+        console.log(ref);
+        return new Promise((resolve, reject) => {
+            const dbRef = firebase.database().ref(ref);
+            dbRef.remove()
+                .then(() => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
         });
     }
 
 }
-
-export default FirebaseInterface;
+const iFirebase = new FirebaseInterface();
+module.exports = iFirebase;

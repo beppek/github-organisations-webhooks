@@ -52,6 +52,21 @@ class Github {
         });
     }
 
+    deleteHook(org, id, token) {
+        return new Promise((resolve, reject) => {
+            Request
+                .del(`${url}orgs/${org}/hooks/${id}`)
+                .set({ "Authorization": `token ${token}` })
+                .then(() => {
+                    resolve();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    reject(error);
+                });
+        });
+    }
+
 }
 
 const github = new Github();

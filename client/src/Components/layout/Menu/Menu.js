@@ -4,10 +4,8 @@ import {browserHistory} from "react-router";
 import FontIcon from "material-ui/FontIcon";
 import {BottomNavigation, BottomNavigationItem} from "material-ui/BottomNavigation";
 import Paper from "material-ui/Paper";
-import IFirebase from "../../../Interfaces/Firebase";
+import firebase from "../../../Interfaces/Firebase";
 import "./Menu.css";
-
-const firebase = new IFirebase();
 
 const homeIcon = <FontIcon className="fa fa-home"/>;
 const orgsIcon = <FontIcon className="fa fa-github"/>;

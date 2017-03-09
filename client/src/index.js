@@ -14,8 +14,7 @@ import Org from "./Components/Org/Org";
 import Settings from "./Components/Settings/Settings";
 import "./index.css";
 
-import IFirebase from "./Interfaces/Firebase";
-const firebase = new IFirebase();
+import firebase from "./Interfaces/Firebase";
 
 firebase.init();
 injectTapEventPlugin();

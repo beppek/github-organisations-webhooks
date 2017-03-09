@@ -3,8 +3,7 @@ import {browserHistory} from "react-router";
 import FontIcon from "material-ui/FontIcon";
 import {blueGrey500} from "material-ui/styles/colors";
 
-import FirebaseInterface from "../../Interfaces/Firebase";
-const firebase = new FirebaseInterface();
+import firebase from "../../Interfaces/Firebase";
 
 import "./Login.css";
 
@@ -15,7 +14,7 @@ class Login extends Component {
             loading: true
         });
         firebase.authenticate().then((result) => {
-            firebase.handleLoggedIn(result);
+            firebase.handleLoggedIn(result.user);
             localStorage.setItem("token", result.credential.accessToken);
             localStorage.setItem("username", result.user.displayName);
             localStorage.setItem("uid", result.user.uid);
