@@ -1,5 +1,4 @@
 "use strict";
-const github = require("../interfaces/Github");
 const firebase = require("../interfaces/Firebase");
 
 /**
@@ -8,23 +7,6 @@ const firebase = require("../interfaces/Firebase");
  * Sends data to firebase
  */
 module.exports = function(api) {
-
-    /**
-     * GET /github
-     */
-     api.get({path: "/github/orgs"}, (req, res, next) => {
-        github.getOrgs(req.headers["x-authorization"]).then((data) => {
-            res.send(200, data);
-            next();
-        })
-        .catch((error) => {
-            res.send(500, error);
-        });
-     });
-
-    api.get({path: "/github/orgs/webhooks"}, (req, res, next) => {
-
-    });
 
     /**
      * POST /github

@@ -24,7 +24,7 @@ class OrgChips extends Component {
                 textAlign: "center"
             },
             cardHeader: {
-                textAlign: "center"
+                paddingRight: 0
             }
         };
         let chips = [];
@@ -42,7 +42,7 @@ class OrgChips extends Component {
                     );
                 }, this);
         } else {
-            chips.push(<p key="nothing">nothing to show</p>);
+            chips.push(<p key="nothing">Nothing to show, you need to join or create some organisations before you can subscribe to their events!</p>);
         }
 
         return (
@@ -50,7 +50,7 @@ class OrgChips extends Component {
                 <CardHeader
                     title="Organisations"
                     subtitle="These are your organisations on Github"
-                    style={styles.cardHeader}
+                    textStyle={styles.cardHeader}
                 />
                 <CardActions style={styles.wrapper}>
                     {chips}
