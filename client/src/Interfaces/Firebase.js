@@ -57,8 +57,9 @@ class FirebaseInterface {
         });
     }
 
-    addHook(org, data) {
-        return new Promise((resolve, reject) => {
+    addHook(org, data, uid) {
+        let promises = [];
+        promises.push(new Promise((resolve, reject) => {
             const dbRef = firebase.database().ref(`orgs/${org}/hook`);
             dbRef.set(data).then(() => {
                 resolve();
@@ -66,6 +67,18 @@ class FirebaseInterface {
             .catch((error) => {
                 reject(error);
             });
+        }));
+        promises.push(new Promise((resolve, reject) => {
+            let userSubscription = {events: data.events};
+            this.saveIfNotExists(`users/${uid}/subscriptions/${org}`, userSubscription).then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        }));
+        return Promise.all(promises).then(() => {
+            return Promise.resolve();
         });
     }
 
@@ -102,7 +115,6 @@ class FirebaseInterface {
     }
 
     deleteRef(ref) {
-        console.log(ref);
         return new Promise((resolve, reject) => {
             const dbRef = firebase.database().ref(ref);
             dbRef.remove()

@@ -70,7 +70,7 @@ class Org extends Component {
         let org = this.props.params.org;
         let uid = localStorage.getItem("uid");
         Github.createHook(org, token, events).then((data) => {
-            firebase.addHook(org, {id: data.body.id, events: data.body.events, subscribers:[uid]});
+            firebase.addHook(org, {id: data.body.id, events: data.body.events, subscribers:[uid]}, uid);
             this.setState({
                 hooks: true,
                 hookData: [data.body]

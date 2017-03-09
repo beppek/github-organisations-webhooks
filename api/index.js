@@ -2,6 +2,7 @@ const restify = require("restify");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const Router = require("./routes/Router");
+const firebase = require("./interfaces/Firebase");
 
 const config =  {
     // key: fs.readFileSync("./secrets/key.pem"),
@@ -13,6 +14,8 @@ const api = restify.createServer(config);
 api.use(restify.CORS());
 api.use(restify.fullResponse());
 api.use(bodyParser.json());
+
+firebase.init();
 
 let router = new Router();
 router.route(api);

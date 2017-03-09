@@ -6,7 +6,7 @@ const iFirebase = require("../interfaces/Firebase");
  * Listens to github webhooks
  * Sends data to firebase
  */
-module.exports = function(api) {
+module.exports = (api) => {
 
     /**
      * POST /github
@@ -19,6 +19,20 @@ module.exports = function(api) {
         })
         .catch((error) => {
             res.send(500);
+            return next();
+        });
+    });
+
+    /**
+     * DELETE /github
+     */
+    api.del({path: "/github/webhooks/:org"}, (req, res, next) => {
+        iFirebase.deleteWebhook(req.params.org).then(() => {
+            res.send(200, {status: "success"});
+            return next();
+        })
+        .catch((error) => {
+            res.send(500, {error});
             return next();
         });
     });
