@@ -1,5 +1,9 @@
+"use strict";
 const firebase = require("firebase");
 const firebaseConfig = require("./firebase.config");
+const Request = require("superagent");
+
+const url = "https://us-central1-beppek-github-webhooks.cloudfunctions.net/webhook";
 
 class FirebaseInterface {
 
@@ -47,7 +51,7 @@ class FirebaseInterface {
 
     handleLoggedIn(data) {
         return new Promise((resolve, reject) => {
-            let userData = {name: data.displayName, avatar: data.photoURL, email: data.email};
+            let userData = {name: data.displayName, avatar: data.photoURL, email: data.email, events: []};
             this.saveIfNotExists(`users/${data.uid}`, userData).then((commited) => {
                 resolve(commited);
             })
@@ -95,6 +99,31 @@ class FirebaseInterface {
         });
     }
 
+    getData(ref, callback) {
+        let dbRef = firebase.database().ref(ref);
+        dbRef.on("value", (snap) => {
+            callback(snap.val());
+        });
+    }
+
+    detach(ref) {
+        let dbRef = firebase.database().ref(ref);
+        dbRef.off();
+    }
+
+    update(ref, data) {
+        return new Promise((resolve, reject) => {
+            let dbRef = firebase.database().ref(ref);
+            dbRef.set(data, (error) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve();
+                }
+            });
+        });
+    }
+
     saveIfNotExists(collection, data) {
         return new Promise((resolve, reject) => {
             const dbRef = firebase.database().ref(collection);
@@ -124,6 +153,31 @@ class FirebaseInterface {
                 .catch((error) => {
                     reject(error);
                 });
+        });
+    }
+
+    deleteHook(org, token) {
+        return new Promise((resolve, reject) => {
+            Request
+                .del(`${url}/${org}`)
+                .set({ "Authorization": token })
+                .then(() => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
+    getToken() {
+        return new Promise((resolve, reject) => {
+            firebase.auth().currentUser.getToken(true).then((token) => {
+                resolve(token);
+            })
+            .catch((error) => {
+                reject(error);
+            });
         });
     }
 

@@ -7,13 +7,34 @@ import FontIcon from "material-ui/FontIcon";
 
 class HookInfo extends Component {
 
+    constructor() {
+        super();
+    }
+
+    componentWillMount() {
+        this.setState({subs:this.props.subs});
+    }
+
     handleDelete() {
         let id = this.props.hooks[0].id;
         this.props.handleDelete(id);
     }
 
     handleSave() {
-        console.log("save");
+        this.props.handleSave(this.state.subs);
+    }
+
+    handleToggle(eventType) {
+        let index = this.state.subs.indexOf(eventType);
+        if (index > -1) {
+            this.setState({
+                subs: [...this.state.subs.slice(0,index), ...this.state.subs.slice(index+1)]
+            });
+        } else {
+            this.setState({
+                subs: this.state.subs.concat([eventType])
+            });
+        }
     }
 
     render() {
@@ -37,14 +58,16 @@ class HookInfo extends Component {
             }
         };
         let toggles = [];
-        this.props.hooks.forEach(function(hook) {
-            hook.events.forEach(function(event, i) {
+        this.props.hooks.forEach((hook) => {
+            hook.events.forEach((eventType, i) => {
+                let toggled = this.state.subs.indexOf(eventType) > -1;
                 toggles.push(
                     <Toggle
-                        label={event}
-                        defaultToggled={true}
-                        key={event}
+                        label={eventType}
+                        defaultToggled={toggled}
+                        key={eventType}
                         style={styles.toggle}
+                        onToggle={() => this.handleToggle(eventType)}
                     />
                 );
                 if (i < hook.events.length -1) {

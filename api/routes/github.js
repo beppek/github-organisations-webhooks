@@ -13,7 +13,8 @@ module.exports = (api) => {
      */
     api.post({path: "/github/payload"}, (req, res, next) => {
         let data = req.body;
-        iFirebase.handleEvent(data).then(() => {
+        let eventType = req.headers["x-github-event"];
+        iFirebase.handleEvent(data, eventType).then(() => {
             res.send(204);
             return next();
         })

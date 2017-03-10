@@ -8,47 +8,78 @@ import firebase from "../../Interfaces/Firebase";
 
 class Org extends Component {
 
-    constructor() {
+    constructor(props) {
         super();
         this.state = {
             admin: false,
             hooks: false,
-            loading: true
+            loading: true,
+            subs: []
         };
+        this.uid = localStorage.getItem("uid");
+        this.org = props.params.org;
+        this.token = localStorage.getItem("token");
     }
 
     componentWillMount() {
-        let token = localStorage.getItem("token");
-        let org = this.props.params.org;
-        Github.getHooks(org, token).then((data) => {
-            this.setState({
-                admin: true,
-                loading: false
-            });
-            if (data.body.length > 0) {
+        let promises = [];
+        promises.push(new Promise((resolve, reject) => {
+            Github.getHooks(this.org, this.token).then((data) => {
                 this.setState({
-                    hooks: true,
-                    hookData: data.body
+                    admin: true
                 });
-            }
-        })
-        .catch((error) => {
-            console.log(error);
+                if (data.body.length > 0) {
+                    this.setState({
+                        hooks: true,
+                        hookData: data.body
+                    });
+                }
+                resolve();
+            })
+            .catch((error) => {
+                console.log(error);
+                this.setState({
+                    admin: false,
+                    loading: false
+                });
+            });
+        }));
+        promises.push(new Promise((resolve, reject) => {
+            firebase.getData(`users/${this.uid}/subscriptions/${this.org}/events`, (data) => {
+                this.setState({
+                    subs: data
+                });
+                resolve();
+            });
+        }));
+        return Promise.all(promises).then(() => {
             this.setState({
-                admin: false,
                 loading: false
             });
         });
     }
 
-    handleDelete(hookId) {
-        const org = this.props.params.org;
-        let token = localStorage.getItem("token");
+    componentWillUnmount() {
+        firebase.detach(`users/${this.uid}/subscriptions/${this.org}/events`);
+    }
 
-        Github.deleteHook(org, hookId, token).then(() => {
-            firebase.deleteRef(`/orgs/${org}/hook`).then(() => {
-                this.setState({
-                    hooks: false
+    handleDelete(hookId) {
+        //TODO: Call api to delete to ensure all subscribers get rid of the hook too
+        Github.deleteHook(this.org, hookId, this.token).then(() => {
+            // firebase.deleteRef(`/orgs/${this.org}/hook`).then(() => {
+            //     this.setState({
+            //         hooks: false
+            //     });
+            // })
+            // .catch((error) => {
+            //     console.log(error);
+            // });
+            firebase.getToken().then((token) => {
+                firebase.deleteHook(this.org, token).then(() => {
+                    this.setState({hooks: false});
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
             })
             .catch((error) => {
@@ -62,15 +93,19 @@ class Org extends Component {
     }
 
     handleSave(events) {
-        console.log(events);
+        firebase.update(`users/${this.uid}/subscriptions/${this.org}/events`, events).then(() => {
+            this.setState({
+                subs: events
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     handleTouchTap(events) {
-        let token = localStorage.getItem("token");
-        let org = this.props.params.org;
-        let uid = localStorage.getItem("uid");
-        Github.createHook(org, token, events).then((data) => {
-            firebase.addHook(org, {id: data.body.id, events: data.body.events, subscribers:[uid]}, uid);
+        Github.createHook(this.org, this.token, events).then((data) => {
+            firebase.addHook(this.org, {id: data.body.id, events: data.body.events, subscribers:[this.uid]}, this.uid);
             this.setState({
                 hooks: true,
                 hookData: [data.body]
@@ -91,6 +126,7 @@ class Org extends Component {
                 }
                 {this.state.hooks && !this.state.loading &&
                     <HookInfo
+                        subs={this.state.subs}
                         admin={this.state.admin}
                         hooks={this.state.hookData}
                         handleDelete={(hookId) => this.handleDelete(hookId)}
