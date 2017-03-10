@@ -1,4 +1,3 @@
-"use strict";
 const firebase = require("firebase");
 const firebaseConfig = require("./firebase.config");
 const Request = require("superagent");

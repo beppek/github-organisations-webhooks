@@ -32,19 +32,18 @@ class Firebase {
         return new Promise((resolve, reject) => {
 
             let subscribersRef = `orgs/${org}/hook/subscribers`;
-            admin.database().ref(subscribersRef).once("value").then((snap) => {
+            this.getData(subscribersRef).then((subscribers) => {
 
-                let subscribers = snap.val();
                 subscribers.forEach((subscriber) => {
 
-                    let dbRef = admin.database().ref(`users/${subscriber}`);
-                    dbRef.once("value").then((user) => {
+                    let subRef = `users/${subscriber}`;
+                    this.getData(subRef).then((user) => {
 
-                        let subscribedEvents = user.val().subscriptions[org].events;
+                        let subscribedEvents = user.subscriptions[org].events;
                         subscribedEvents.forEach((subscribedEvent) => {
 
                             if (subscribedEvent === eventType) {
-                                let eventRef = dbRef.child(`/events/${key}`);
+                                let eventRef = admin.database().ref(subRef).child(`/events/${key}`);
                                 eventRef.set({seen: false}).then(() => {
                                     resolve();
                                 })
@@ -70,16 +69,60 @@ class Firebase {
     }
 
     saveToDB(collection, data) {
-        console.log("saving event...");
         return new Promise((resolve, reject) => {
             const dbRef = admin.database().ref();
             const newRef = dbRef.child(collection).push();
             newRef.set(data).then(() => {
-                console.log("Event saved!");
                 resolve(newRef.key);
             })
             .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    verifyToken(token) {
+        return new Promise((resolve, reject) => {
+            admin.auth().verifyIdToken(token).then((decoded) => {
+                resolve(decoded);
+            })
+            .catch((error) => {
                 console.log(error);
+                reject(error);
+            });
+        });
+    }
+
+    deleteWebhook(org) {
+        let ref = `orgs${org}/hook`;
+        this.getData(ref).then((hookRef) => {
+            hookRef.subscribers.forEach((sub) => {
+                let subRef = `users/${sub}/subscriptions/${org}`;
+                this.deleteRef(subRef);
+            });
+            this.deleteRef(ref);
+        });
+    }
+
+    deleteRef(ref) {
+        return new Promise((resolve, reject) => {
+            const dbRef = admin.database().ref(ref);
+            dbRef.remove().then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    getData(ref) {
+        return new Promise((resolve, reject) => {
+            let dbRef = admin.database().ref(ref);
+            dbRef.once("value").then((snap) => {
+                resolve(snap.val());
+            })
+            .catch((error) => {
                 reject(error);
             });
         });

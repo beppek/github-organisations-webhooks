@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {browserHistory} from "react-router";
 import Github from "../../Interfaces/Github";
 import CircularProgress from "material-ui/CircularProgress";
 import HookForm from "../layout/HookForm/HookForm";

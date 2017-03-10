@@ -3,3 +3,8 @@
     width: 100%;
     bottom:0;
 }
+
+
+.active {
+    background-color: rgb(50, 50, 90);
+}

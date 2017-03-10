@@ -1,8 +1,22 @@
 import React, { Component } from "react";
-
-// import Github from "../../Interfaces/Github";
+import firebase from "../../Interfaces/Firebase";
 
 class Home extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            loading: true
+        };
+        this.uid = localStorage.getItem("uid");
+    }
+
+    componentWillMount() {
+        let subsRef = `users/${this.uid}/subscriptions`;
+        firebase.getData(subsRef, (subs) => {
+            console.log(subs);
+        });
+    }
 
     render() {
         return (

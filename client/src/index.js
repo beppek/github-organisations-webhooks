@@ -11,13 +11,22 @@ import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import Orgs from "./Components/Orgs/Orgs";
 import Org from "./Components/Org/Org";
-import Settings from "./Components/Settings/Settings";
 import "./index.css";
 
 import firebase from "./Interfaces/Firebase";
 
 firebase.init();
 injectTapEventPlugin();
+
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", function() {
+//     navigator.serviceWorker.register("/sw.js").then(function(registration) {
+//       console.log("ServiceWorker registration successful with scope: ", registration.scope);
+//     }).catch(function(err) {
+//       console.log("ServiceWorker registration failed: ", err);
+//     });
+//   });
+// }
 
 function checkAuth() {
   let loggedIn = false;
@@ -38,7 +47,6 @@ ReactDOM.render(
       <Route path="/" onEnter={checkAuth} component={App}>
         <IndexRoute component={Home}/>
         <Route path="/orgs" component={Orgs}/>
-        <Route path="/settings" component={Settings}/>
         <Route path="/org/:org" component={Org}/>
       </Route>
       <Route path="/login" component={Login} />

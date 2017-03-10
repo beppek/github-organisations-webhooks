@@ -24,19 +24,18 @@ class Firebase {
         return new Promise((resolve, reject) => {
 
             let subscribersRef = `orgs/${org}/hook/subscribers`;
-            admin.database().ref(subscribersRef).once("value").then((snap) => {
+            this.getData(subscribersRef).then((subscribers) => {
 
-                let subscribers = snap.val();
                 subscribers.forEach((subscriber) => {
 
-                    let dbRef = admin.database().ref(`users/${subscriber}`);
-                    dbRef.once("value").then((user) => {
+                    let subRef = `users/${subscriber}`;
+                    this.getData(subRef).then((user) => {
 
-                        let subscribedEvents = user.val().subscriptions[org].events;
+                        let subscribedEvents = user.subscriptions[org].events;
                         subscribedEvents.forEach((subscribedEvent) => {
 
                             if (subscribedEvent === eventType) {
-                                let eventRef = dbRef.child(`/events/${key}`);
+                                let eventRef = admin.database().ref(subRef).child(`/events/${key}`);
                                 eventRef.set({seen: false}).then(() => {
                                     resolve();
                                 })
@@ -87,10 +86,9 @@ class Firebase {
     }
 
     deleteWebhook(org) {
-        let ref = `orgs/${org}/hook`;
-        this.getData(ref, (hookRef) => {
+        let ref = `orgs${org}/hook`;
+        this.getData(ref).then((hookRef) => {
             hookRef.subscribers.forEach((sub) => {
-                console.log(sub);
                 let subRef = `users/${sub}/subscriptions/${org}`;
                 this.deleteRef(subRef);
             });
@@ -102,7 +100,6 @@ class Firebase {
         return new Promise((resolve, reject) => {
             const dbRef = admin.database().ref(ref);
             dbRef.remove().then(() => {
-                console.log(`deleted: ${ref}`);
                 resolve();
             })
             .catch((error) => {
@@ -111,10 +108,15 @@ class Firebase {
         });
     }
 
-    getData(ref, callback) {
-        let dbRef = admin.database().ref(ref);
-        dbRef.once("value", (snap) => {
-            callback(snap.val());
+    getData(ref) {
+        return new Promise((resolve, reject) => {
+            let dbRef = admin.database().ref(ref);
+            dbRef.once("value").then((snap) => {
+                resolve(snap.val());
+            })
+            .catch((error) => {
+                reject(error);
+            });
         });
     }
 

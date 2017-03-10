@@ -18,18 +18,17 @@ exports.githubPayload = functions.https.onRequest((req, res) => {
 });
 
 exports.webhook = functions.https.onRequest((req, res) => {
-  console.log(req.method);
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Authorization");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
 
   if ("OPTIONS" == req.method) {
-      res.send(200);
-    }
+    res.send(200);
+  }
 
   let org = req.params[0];
 
-  if (req.headers.authorization) {
+  if (req.headers.authorization && "DELETE" == req.method) {
     let token = req.headers.authorization;
     iFirebase.verifyToken(token).then(() => {
       iFirebase.deleteWebhook(org);

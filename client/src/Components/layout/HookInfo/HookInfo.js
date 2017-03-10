@@ -7,10 +7,6 @@ import FontIcon from "material-ui/FontIcon";
 
 class HookInfo extends Component {
 
-    constructor() {
-        super();
-    }
-
     componentWillMount() {
         this.setState({subs:this.props.subs});
     }

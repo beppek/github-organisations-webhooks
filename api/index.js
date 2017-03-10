@@ -15,6 +15,18 @@ api.use(restify.CORS());
 api.use(restify.fullResponse());
 api.use(bodyParser.json());
 
+api.post("github/payload", (req, res, next) => {
+  let eventData = req.body;
+  let eventType = req.headers["x-github-event"];
+  firebase.handleEvent(eventData, eventType).then(() => {
+    res.send(204);
+  })
+  .catch((error) => {
+    console.log(error);
+    res.send(500);
+  });
+});
+
 firebase.init();
 
 let router = new Router();
