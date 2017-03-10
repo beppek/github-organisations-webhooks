@@ -110,6 +110,18 @@ class FirebaseInterface {
         dbRef.off();
     }
 
+    getDataOnce(ref) {
+        return new Promise((resolve, reject) => {
+            let dbRef = firebase.database().ref(ref);
+            dbRef.once("value").then((snap) => {
+                resolve(snap.val());
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
     update(ref, data) {
         return new Promise((resolve, reject) => {
             let dbRef = firebase.database().ref(ref);

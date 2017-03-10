@@ -32,7 +32,7 @@ class Firebase {
                     this.getData(subRef).then((user) => {
 
                         let subscribedEvents = user.subscriptions[org].events;
-                        subscribedEvents.forEach((subscribedEvent) => {
+                        subscribedEvents.forEach((subscribedEvent, i) => {
 
                             if (subscribedEvent === eventType) {
                                 let eventRef = admin.database().ref(subRef).child(`/events/${key}`);
@@ -42,6 +42,8 @@ class Firebase {
                                 .catch((error) => {
                                     reject(error);
                                 });
+                            } else if (i === subscribedEvents.length -1) {
+                                resolve();
                             }
 
                         });

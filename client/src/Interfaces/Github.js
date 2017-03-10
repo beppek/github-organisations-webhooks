@@ -1,7 +1,7 @@
 const Request = require("superagent");
 const url = "https://api.github.com/";
-// const payloadUrl = "https://us-central1-beppek-github-webhooks.cloudfunctions.net/githubPayload";
-const payloadUrl = " http://9ca1130d.ngrok.io/github/payload";
+const payloadUrl = "https://us-central1-beppek-github-webhooks.cloudfunctions.net/githubPayload";
+// const payloadUrl = " http://9ca1130d.ngrok.io/github/payload";
 
 class Github {
 

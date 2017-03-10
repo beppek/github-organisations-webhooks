@@ -19,8 +19,7 @@ class Orgs extends Component {
         Github.getOrgs(token).then((result) => {
             result.body.forEach((org) => {
                 let orgData = {name: org.login, url: org.url};
-                firebase.saveIfNotExists(`orgs/${org.login}`, orgData).then((res) => {
-                    console.log(res);
+                firebase.saveIfNotExists(`orgs/${org.login}`, orgData).then(() => {
                 })
                 .catch((err) => {
                     console.log(err);

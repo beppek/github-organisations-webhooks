@@ -63,16 +63,7 @@ class Org extends Component {
     }
 
     handleDelete(hookId) {
-        //TODO: Call api to delete to ensure all subscribers get rid of the hook too
         Github.deleteHook(this.org, hookId, this.token).then(() => {
-            // firebase.deleteRef(`/orgs/${this.org}/hook`).then(() => {
-            //     this.setState({
-            //         hooks: false
-            //     });
-            // })
-            // .catch((error) => {
-            //     console.log(error);
-            // });
             firebase.getToken().then((token) => {
                 firebase.deleteHook(this.org, token).then(() => {
                     this.setState({hooks: false});
