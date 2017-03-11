@@ -14,7 +14,7 @@ class EventCard extends Component {
       card: {
         maxWidth: 400,
         textAlign: "left",
-        margin: "5px auto",
+        margin: "0px auto 5px",
         border: border
       }
     };

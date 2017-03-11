@@ -14,12 +14,7 @@ class FirebaseInterface {
         return new Promise((resolve, reject) => {
             let provider = new firebase.auth.GithubAuthProvider();
             provider.addScope("user repo admin:org admin:org_hook");
-            firebase.auth().signInWithPopup(provider).then((result) => {
-                resolve(result);
-            })
-            .catch((error) => {
-                reject(error);
-            });
+            firebase.auth().signInWithRedirect(provider);
         });
     }
 
@@ -101,7 +96,18 @@ class FirebaseInterface {
     getData(ref, callback) {
         let dbRef = firebase.database().ref(ref);
         dbRef.on("value", (snap) => {
-            callback(snap.val());
+            if (snap.val()) {
+                callback(snap.val());
+            }
+        });
+    }
+
+    listen(ref, callback) {
+        let dbRef = firebase.database().ref(ref);
+        dbRef.endAt().limitToLast(1).on("child_added", (snap) => {
+            if (snap.val()) {
+                callback(snap.key);
+            }
         });
     }
 

@@ -30,6 +30,7 @@ class Home extends Component {
                         this.setState({
                             listeners: this.state.listeners.concat([eventRef])
                         });
+                        this.eventSeen(event);
                         resolve(event);
                     });
                 }));
@@ -43,12 +44,10 @@ class Home extends Component {
         });
     }
 
-    componentDidMount() {
+    eventSeen(event) {
         setTimeout(() => {
-            this.state.events.forEach((event) => {
-                let eventsRef = `users/${this.uid}/events/${event.id}`;
-                firebase.update(eventsRef, {seen: true});
-            });
+            let eventsRef = `users/${this.uid}/events/${event.id}`;
+            firebase.update(eventsRef, {seen: true});
         }, 3000);
     }
 
@@ -65,7 +64,13 @@ class Home extends Component {
         });
         return (
             <div>
-                {cards}
+                {
+                    this.state.events.reverse().map((event) => {
+                        return (
+                            <EventCard key={event.id} event={event} />
+                        );
+                    })
+                }
             </div>
         );
     }
