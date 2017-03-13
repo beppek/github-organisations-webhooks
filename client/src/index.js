@@ -13,11 +13,13 @@ import Orgs from "./Components/Orgs/Orgs";
 import Org from "./Components/Org/Org";
 import "./index.css";
 
+import sw from "./controller/swController";
+
 import firebase from "./Interfaces/Firebase";
 
 firebase.init();
 injectTapEventPlugin();
-swController();
+sw();
 
 function checkAuth() {
   let loggedIn = false;
@@ -32,34 +34,6 @@ function checkAuth() {
   }
 }
 
-function swController() {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function() {
-      navigator.serviceWorker.register("sw.js").then(function(reg) {
-        if (reg.installing) {
-          // Call something
-          console.log("installing");
-          return;
-        }
-        if (reg.waiting) {
-          console.log("waiting");
-          return;
-        }
-        // if (!navigator.serviceWorker.controller) {
-        //   console.log("no controller");
-        //   return;
-        // }
-
-        reg.addEventListener("updatefound", function() {
-          console.log("installing update");
-        });
-        console.log("ServiceWorker registration successful with scope: ", reg.scope);
-      }).catch(function(err) {
-        console.log("ServiceWorker registration failed: ", err);
-      });
-    });
-  }
-}
 
 ReactDOM.render(
   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>

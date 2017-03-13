@@ -45,16 +45,23 @@ class Home extends Component {
     }
 
     eventSeen(event) {
-        setTimeout(() => {
-            let eventsRef = `users/${this.uid}/events/${event.id}`;
-            firebase.update(eventsRef, {seen: true});
-        }, 3000);
+        if (!event.seen) {
+            setTimeout(() => {
+                let eventsRef = `users/${this.uid}/events/${event.id}`;
+                firebase.update(eventsRef, {seen: true});
+            }, 3000);
+        }
     }
 
     componentWillUnmount() {
         this.state.listeners.forEach((listener) => {
             firebase.detach(listener);
         });
+    }
+
+    handleDelete(event) {
+        let ref = `users/${this.uid}/events/${event.id}`;
+        firebase.deleteRef(ref);
     }
 
     render() {
@@ -67,7 +74,7 @@ class Home extends Component {
                 {
                     this.state.events.reverse().map((event) => {
                         return (
-                            <EventCard key={event.id} event={event} />
+                            <EventCard handleDelete={() => this.handleDelete(event)} key={event.id} event={event} />
                         );
                     })
                 }

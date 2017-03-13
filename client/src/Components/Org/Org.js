@@ -5,6 +5,8 @@ import HookForm from "../layout/HookForm/HookForm";
 import HookInfo from "../layout/HookInfo/HookInfo";
 import firebase from "../../Interfaces/Firebase";
 
+import Notification from "../layout/Notification/Notification";
+
 class Org extends Component {
 
     constructor(props) {
@@ -126,6 +128,7 @@ class Org extends Component {
                 {!this.state.admin && !this.state.loading && !this.state.hooks &&
                     <p>There are no hooks available for this repo. Ask the admin to register a hook through this app</p>
                 }
+                <Notification />
             </div>
         );
     }

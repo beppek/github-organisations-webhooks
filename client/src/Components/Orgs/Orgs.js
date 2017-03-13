@@ -3,6 +3,8 @@ import OrgChips from "../layout/OrgChips/OrgChips";
 import {browserHistory} from "react-router";
 import firebase from "../../Interfaces/Firebase";
 
+import Notification from "../layout/Notification/Notification";
+
 import Github from "../../Interfaces/Github";
 
 class Orgs extends Component {
@@ -10,7 +12,8 @@ class Orgs extends Component {
     constructor() {
         super();
         this.state = {
-            orgs: []
+            orgs: [],
+            listeners: []
         };
     }
 
@@ -42,6 +45,7 @@ class Orgs extends Component {
         return (
             <div>
                 <OrgChips onTouchTap={(org) => this.handleTouchTap(org)} orgs={this.state.orgs} />
+                <Notification />
             </div>
         );
     }
