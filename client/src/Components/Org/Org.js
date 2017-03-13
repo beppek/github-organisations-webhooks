@@ -4,6 +4,7 @@ import CircularProgress from "material-ui/CircularProgress";
 import HookForm from "../layout/HookForm/HookForm";
 import HookInfo from "../layout/HookInfo/HookInfo";
 import firebase from "../../Interfaces/Firebase";
+import Snackbar from "material-ui/Snackbar";
 
 import Notification from "../layout/Notification/Notification";
 
@@ -38,10 +39,19 @@ class Org extends Component {
                 resolve();
             })
             .catch((error) => {
-                console.log(error);
-                this.setState({
-                    admin: false,
-                    loading: false
+                firebase.getData(`orgs/${this.org}/hook/events`, (data) => {
+                    if (data.length < 1) {
+                        this.setState({
+                            admin: false
+                        });
+                    } else {
+                        this.setState({
+                            admin: false,
+                            hooks: true,
+                            hookData: [{events: data}]
+                        });
+                    }
+                    resolve();
                 });
             });
         }));
@@ -53,10 +63,9 @@ class Org extends Component {
                 resolve();
             });
         }));
+
         return Promise.all(promises).then(() => {
-            this.setState({
-                loading: false
-            });
+            this.setState({loading: false});
         });
     }
 
@@ -67,32 +76,33 @@ class Org extends Component {
     handleDelete(hookId) {
         Github.deleteHook(this.org, hookId, this.token).then(() => {
             firebase.getToken().then((token) => {
-                firebase.deleteHook(this.org, token).then(() => {
-                    this.setState({hooks: false});
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+                firebase.deleteHook(this.org, token);
             })
             .catch((error) => {
                 console.log(error);
+                this.setState({hooks: true});
             });
         })
         .catch((error) => {
             console.log(error);
+            this.setState({hooks: true});
         });
+        this.setState({hooks: false});
 
     }
 
     handleSave(events) {
         firebase.update(`users/${this.uid}/subscriptions/${this.org}/events`, events).then(() => {
             this.setState({
-                subs: events
+                subs: events,
+                loading: false
             });
         })
         .catch((error) => {
             console.log(error);
+            this.setState({loading: false});
         });
+        this.setState({loading: true});
     }
 
     handleTouchTap(events) {
@@ -111,13 +121,13 @@ class Org extends Component {
     render() {
         return (
             <div>
-                {this.props.params.org}
                 {this.state.loading && <CircularProgress />}
                 {!this.state.hooks && !this.state.loading && this.state.admin &&
                     <HookForm onTouchTap={(events) => this.handleTouchTap(events)} />
                 }
                 {this.state.hooks && !this.state.loading &&
                     <HookInfo
+                        org={this.props.params.org}
                         subs={this.state.subs}
                         admin={this.state.admin}
                         hooks={this.state.hookData}

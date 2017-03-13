@@ -13,8 +13,8 @@ import "./App.css";
 
 class App extends Component {
 
-  componentWillMount() {
-    sw();
+  componentDidMount() {
+    sw.requestPermission();
   }
 
   signout() {

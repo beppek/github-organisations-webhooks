@@ -1,31 +1,32 @@
 import firebase from "../Interfaces/Firebase";
 
-module.exports = function() {
-    if ("serviceWorker" in navigator && "PushManager" in window) {
-      console.log("sw and push is supported");
-      register();
-    } else {
-      console.log("Tech not supported. Drop the apple and step into the future.");
-    }
+module.exports = {
+  register: register,
+  requestPermission: requestPermission
 };
 
 function register() {
-    window.addEventListener("load", function() {
-        // navigator.serviceWorker.register("/service-worker.js").then(function(reg) {
-        navigator.serviceWorker.register("/firebase-messaging-sw.js").then(function(reg) {
-        requestPermission();
-        listenForUpdates(reg);
-        onTokenRefresh();
+    if ("serviceWorker" in navigator && "PushManager" in window) {
+      console.log("sw and push is supported");
+      window.addEventListener("load", function() {
+          navigator.serviceWorker.register("/service-worker.js").then(function(reg) {
+          // navigator.serviceWorker.register("/firebase-messaging-sw.js").then(function(reg) {
+          // requestPermission();
+          listenForUpdates(reg);
+          onTokenRefresh();
 
-        checkStatus(reg);
+          checkStatus(reg);
 
-        console.log("ServiceWorker registration successful with scope: ", reg.scope);
+          console.log("ServiceWorker registration successful with scope: ", reg.scope);
 
-      }).catch(function(err) {
-          console.log("ServiceWorker registration failed: ", err);
-          console.log(err);
+        }).catch(function(err) {
+            console.log("ServiceWorker registration failed: ", err);
+            console.log(err);
+        });
       });
-    });
+    } else {
+      console.log("Tech not supported. Drop the apple and step into the future.");
+    }
 }
 
 function requestPermission() {

@@ -3,12 +3,12 @@
   "name": "Github Organisation Event Subscriber",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "192x192",
+      "src": "github.png",
+      "sizes": "144x144",
       "type": "image/png"
     }
   ],
   "start_url": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "gcm_sender_id": "103953800507"
 }

@@ -17,26 +17,24 @@ class Notification extends Component {
   }
 
   componentWillMount() {
-    // let eventsRef = `users/${this.uid}/events`;
-    // this.setState({
-    //     listeners: this.state.listeners.concat([eventsRef])
-    // });
-    // firebase.listen(eventsRef, (eventId) => {
-    //   if (!this.state.register) {
-    //     let eventRef = `events/${eventId}`;
-    //     firebase.getDataOnce(eventRef).then((event) => {
-    //         event.seen = false;
-    //         event.id = eventId;
-    //         this.setState({
-    //           event: event,
-    //           open: true
-    //         });
-    //     });
-    //   }
-    //   this.setState({register: false});
-    // });
-    firebase.onMessage((event) => {
+    let eventsRef = `users/${this.uid}/events`;
+    this.setState({
+        listeners: this.state.listeners.concat([eventsRef])
+    });
+    firebase.listen(eventsRef, (eventId) => {
+      if (!this.state.register) {
+        let eventRef = `events/${eventId}`;
+        firebase.getDataOnce(eventRef).then((event) => {
+            event.seen = false;
+            event.id = eventId;
+            this.setState({
+              event: event,
+              open: true
+            });
+        });
       this.setState({event:event, open:true});
+      }
+      this.setState({register: false});
     });
   }
 
@@ -68,7 +66,7 @@ class Notification extends Component {
       <div>
         {this.state.event && <Snackbar
           open={this.state.open}
-          message={`${this.state.event.body} ${this.state.event.title}`}
+          message={`${this.state.event.sender.login} ${this.state.event.action} ${this.state.event.eventType} event in ${this.state.event.organization.login}`}
           autoHideDuration={30000}
           onRequestClose={() => this.handleRequestClose()}
           action={"View events"}

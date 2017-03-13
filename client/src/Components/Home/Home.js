@@ -20,6 +20,9 @@ class Home extends Component {
             listeners: this.state.listeners.concat([eventsRef])
         });
         firebase.getData(eventsRef, (events) => {
+            if (events.length < 1) {
+                return;
+            }
             let promises = [];
             for (const eventId of Object.keys(events)) {
                 promises.push(new Promise((resolve, reject) => {

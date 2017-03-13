@@ -14,6 +14,9 @@ import Org from "./Components/Org/Org";
 import "./index.css";
 
 import firebase from "./Interfaces/Firebase";
+import sw from "./controller/swController";
+
+sw.register();
 
 firebase.init();
 injectTapEventPlugin();

@@ -41,7 +41,7 @@ class HookForm extends Component {
 
     render() {
         const style = {
-            width: 200,
+            width: 300,
             textAlign: "left",
             padding: 20,
             margin: "0 auto"

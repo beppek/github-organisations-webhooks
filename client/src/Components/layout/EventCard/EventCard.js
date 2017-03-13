@@ -22,10 +22,16 @@ class EventCard extends Component {
         margin: "0px auto 5px",
         border: border
       },
+      cardHeader: {
+        paddingRight: "0!important",
+      },
       button: {
         zIndex: 0
       },
       img: {
+        verticalAlign: "middle"
+      },
+      cardText: {
         height: "100%",
         verticalAlign: "middle"
       }
@@ -36,14 +42,16 @@ class EventCard extends Component {
           title={`${this.props.event.sender.login} ${this.props.event.action} ${this.props.event.eventType} event`}
           subtitle={`in ${this.props.event.organization.login}/${this.props.event.repository.name}`}
           avatar={this.props.event.sender.avatar_url}
+          textStyle={styles.cardHeader}
         />
-        <CardText style={styles.img}>
+        <CardText style={styles.cardText}>
           <Avatar style={styles.img} src={this.props.event.organization.avatar_url} />
           <FlatButton
             label={`Go to the repo`}
             href={this.props.event.repository.html_url}
             primary={true}
             icon={<FontIcon className="fa fa-arrow-right" />}
+            style={styles.button}
           />
         </CardText>
         <CardActions>

@@ -19,7 +19,7 @@ class OrgChips extends Component {
                 flexWrap: "wrap",
             },
             card: {
-                width: 400,
+                width: "90%",
                 margin: "0 auto",
                 textAlign: "center"
             },

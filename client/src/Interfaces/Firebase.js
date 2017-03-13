@@ -99,6 +99,8 @@ class FirebaseInterface {
         dbRef.on("value", (snap) => {
             if (snap.val()) {
                 callback(snap.val());
+            } else {
+                callback([]);
             }
         });
     }

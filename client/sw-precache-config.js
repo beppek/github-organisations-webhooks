@@ -8,5 +8,5 @@ module.exports = {
   dontCacheBustUrlsMatching: /\.\w{8}\./,
   swFilePath: "build/service-worker.js",
   navigateFallback: "index.html",
-  importScripts: ["/firebase-messaging-sw.js"]
+  importScripts: ["build/firebase-messaging-sw.js"]
 };

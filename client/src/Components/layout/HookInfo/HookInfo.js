@@ -51,6 +51,11 @@ class HookInfo extends Component {
             },
             delete: {
                 position: "relative",
+            },
+            org: {
+                float: "right",
+                marginRight: "20px",
+                fontSize: "18px"
             }
         };
         let toggles = [];
@@ -82,6 +87,7 @@ class HookInfo extends Component {
                         onTouchTap={() => this.handleDelete()}
                     />
                 }
+                <h3 style={styles.org}>{this.props.org}</h3>
                 {toggles}
                 <RaisedButton
                     label="Save"
