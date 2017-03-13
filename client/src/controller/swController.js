@@ -11,18 +11,20 @@ module.exports = function() {
 
 function register() {
     window.addEventListener("load", function() {
-      navigator.serviceWorker.register("firebase-messaging-sw.js").then(function(reg) {
-      requestPermission();
-      getMessageToken();
-      listenForUpdates(reg);
-      onTokenRefresh();
+        // navigator.serviceWorker.register("/service-worker.js").then(function(reg) {
+        navigator.serviceWorker.register("/firebase-messaging-sw.js").then(function(reg) {
+        requestPermission();
+        listenForUpdates(reg);
+        onTokenRefresh();
+        firebase.onMessage();
 
-      checkStatus(reg);
+        checkStatus(reg);
 
-      console.log("ServiceWorker registration successful with scope: ", reg.scope);
+        console.log("ServiceWorker registration successful with scope: ", reg.scope);
 
       }).catch(function(err) {
           console.log("ServiceWorker registration failed: ", err);
+          console.log(err);
       });
     });
 }
@@ -30,6 +32,7 @@ function register() {
 function requestPermission() {
     firebase.requestPermission().then(() => {
         console.log("permission granted");
+        return getMessageToken();
     })
     .catch((error) => {
         console.log("unable to get permission", error);
@@ -38,7 +41,12 @@ function requestPermission() {
 
 function getMessageToken() {
     firebase.getMsgToken().then((token) => {
+      let uid = localStorage.getItem("uid");
+      console.log(uid);
+      if (uid !== null) {
+        firebase.saveIfNotExists(`users/${uid}/notificationTokens/${token}`, true);
         console.log(token);
+      }
     })
     .catch((error) => {
         if (error) {

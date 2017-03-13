@@ -200,30 +200,31 @@ class FirebaseInterface {
     }
 
     requestPermission() {
-    return new Promise((resolve, reject) => {
-      this.messaging.requestPermission().then(() => {
-        resolve();
-      })
-        .catch((error) => {
-          reject(error);
+        return new Promise((resolve, reject) => {
+            this.messaging.requestPermission().then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
         });
-    });
-  }
+    }
 
-  getMsgToken() {
-    return new Promise((resolve, reject) => {
-      this.messaging.getToken().then((token) => {
-        if (token) {
-          resolve(token);
-        } else {
-          reject("");
-        }
-      });
-    });
-  }
+    getMsgToken() {
+        return new Promise((resolve, reject) => {
+            this.messaging.getToken().then((token) => {
+                if (token) {
+                    resolve(token);
+                } else {
+                    reject("");
+                }
+            });
+        });
+    }
 
   onTokenRefresh(callback) {
       this.messaging.onTokenRefresh(() => {
+          console.log("token refreshed");
         this.messaging.getToken().then((refreshedToken) => {
             callback(null, refreshedToken);
         })

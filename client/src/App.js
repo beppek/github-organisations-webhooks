@@ -6,10 +6,16 @@ import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import {red400} from "material-ui/styles/colors";
 
+import sw from "./controller/swController";
+
 import logo from "./github.svg";
 import "./App.css";
 
 class App extends Component {
+
+  componentWillMount() {
+    sw();
+  }
 
   signout() {
       localStorage.removeItem("username");

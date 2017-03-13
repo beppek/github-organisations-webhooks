@@ -13,13 +13,12 @@ import Orgs from "./Components/Orgs/Orgs";
 import Org from "./Components/Org/Org";
 import "./index.css";
 
-import sw from "./controller/swController";
+
 
 import firebase from "./Interfaces/Firebase";
 
 firebase.init();
 injectTapEventPlugin();
-sw();
 
 function checkAuth() {
   let loggedIn = false;

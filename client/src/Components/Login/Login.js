@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {browserHistory} from "react-router";
 import FontIcon from "material-ui/FontIcon";
 import {blueGrey500} from "material-ui/styles/colors";
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from "material-ui/CircularProgress";
 
 import firebase from "../../Interfaces/Firebase";
 
@@ -44,16 +44,6 @@ class Login extends Component {
         });
         localStorage.setItem("loggingIn", true);
         firebase.authenticate();
-        // firebase.authenticate().then((result) => {
-        //     firebase.handleLoggedIn(result.user);
-        //     localStorage.setItem("token", result.credential.accessToken);
-        //     localStorage.setItem("username", result.user.displayName);
-        //     localStorage.setItem("uid", result.user.uid);
-        //     browserHistory.push("/");
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        // });
     }
 
     render() {
