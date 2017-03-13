@@ -17,16 +17,7 @@ import firebase from "./Interfaces/Firebase";
 
 firebase.init();
 injectTapEventPlugin();
-
-// if ("serviceWorker" in navigator) {
-//   window.addEventListener("load", function() {
-//     navigator.serviceWorker.register("/sw.js").then(function(registration) {
-//       console.log("ServiceWorker registration successful with scope: ", registration.scope);
-//     }).catch(function(err) {
-//       console.log("ServiceWorker registration failed: ", err);
-//     });
-//   });
-// }
+swController();
 
 function checkAuth() {
   let loggedIn = false;
@@ -38,6 +29,35 @@ function checkAuth() {
 
   if (!loggedIn) {
     browserHistory.push("/login");
+  }
+}
+
+function swController() {
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function() {
+      navigator.serviceWorker.register("sw.js").then(function(reg) {
+        if (reg.installing) {
+          // Call something
+          console.log("installing");
+          return;
+        }
+        if (reg.waiting) {
+          console.log("waiting");
+          return;
+        }
+        // if (!navigator.serviceWorker.controller) {
+        //   console.log("no controller");
+        //   return;
+        // }
+
+        reg.addEventListener("updatefound", function() {
+          console.log("installing update");
+        });
+        console.log("ServiceWorker registration successful with scope: ", reg.scope);
+      }).catch(function(err) {
+        console.log("ServiceWorker registration failed: ", err);
+      });
+    });
   }
 }
 

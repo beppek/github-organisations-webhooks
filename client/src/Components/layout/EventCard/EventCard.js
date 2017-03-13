@@ -12,7 +12,7 @@ class EventCard extends Component {
     }
     let styles = {
       card: {
-        maxWidth: 400,
+        maxWidth: "90%",
         textAlign: "left",
         margin: "0px auto 5px",
         border: border
