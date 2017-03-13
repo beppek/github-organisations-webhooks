@@ -13,8 +13,6 @@ import Orgs from "./Components/Orgs/Orgs";
 import Org from "./Components/Org/Org";
 import "./index.css";
 
-
-
 import firebase from "./Interfaces/Firebase";
 
 firebase.init();

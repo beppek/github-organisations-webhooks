@@ -46,10 +46,8 @@ class Home extends Component {
 
     eventSeen(event) {
         if (!event.seen) {
-            setTimeout(() => {
-                let eventsRef = `users/${this.uid}/events/${event.id}`;
-                firebase.update(eventsRef, {seen: true});
-            }, 3000);
+            let eventsRef = `users/${this.uid}/events/${event.id}`;
+            firebase.update(eventsRef, {seen: true});
         }
     }
 
@@ -62,6 +60,9 @@ class Home extends Component {
     handleDelete(event) {
         let ref = `users/${this.uid}/events/${event.id}`;
         firebase.deleteRef(ref);
+        if (this.state.events.length === 1) {
+            this.setState({loading: true, events: []});
+        }
     }
 
     render() {
@@ -71,6 +72,7 @@ class Home extends Component {
         });
         return (
             <div>
+                {this.state.loading && <p>Nothing to see here</p>}
                 {
                     this.state.events.reverse().map((event) => {
                         return (

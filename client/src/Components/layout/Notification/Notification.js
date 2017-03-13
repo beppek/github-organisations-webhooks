@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import firebase from "../../../Interfaces/Firebase";
 import Snackbar from 'material-ui/Snackbar';
+import {browserHistory} from "react-router";
 
 class Notification extends Component {
 
@@ -16,23 +17,26 @@ class Notification extends Component {
   }
 
   componentWillMount() {
-    let eventsRef = `users/${this.uid}/events`;
-    this.setState({
-        listeners: this.state.listeners.concat([eventsRef])
-    });
-    firebase.listen(eventsRef, (eventId) => {
-      if (!this.state.register) {
-        let eventRef = `events/${eventId}`;
-        firebase.getDataOnce(eventRef).then((event) => {
-            event.seen = false;
-            event.id = eventId;
-            this.setState({
-              event: event,
-              open: true
-            });
-        });
-      }
-      this.setState({register: false});
+    // let eventsRef = `users/${this.uid}/events`;
+    // this.setState({
+    //     listeners: this.state.listeners.concat([eventsRef])
+    // });
+    // firebase.listen(eventsRef, (eventId) => {
+    //   if (!this.state.register) {
+    //     let eventRef = `events/${eventId}`;
+    //     firebase.getDataOnce(eventRef).then((event) => {
+    //         event.seen = false;
+    //         event.id = eventId;
+    //         this.setState({
+    //           event: event,
+    //           open: true
+    //         });
+    //     });
+    //   }
+    //   this.setState({register: false});
+    // });
+    firebase.onMessage((event) => {
+      this.setState({event:event, open:true});
     });
   }
 
@@ -49,19 +53,26 @@ class Notification extends Component {
     });
   }
 
+  handleTouchTap() {
+    browserHistory.push("/");
+  }
+
   render() {
     const styles = {
       snackbar: {
-        marginBottom: 60
+        marginBottom: 100,
+        float: "left"
       }
     };
     return (
       <div>
         {this.state.event && <Snackbar
           open={this.state.open}
-          message={`New ${this.state.event.eventType} event in ${this.state.event.organization.login}. Action: ${this.state.event.action}.`}
-          autoHideDuration={3000}
+          message={`${this.state.event.body} ${this.state.event.title}`}
+          autoHideDuration={30000}
           onRequestClose={() => this.handleRequestClose()}
+          action={"View events"}
+          onActionTouchTap={() => this.handleTouchTap()}
           style={styles.snackbar}
         />}
       </div>

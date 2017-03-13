@@ -16,7 +16,6 @@ function register() {
         requestPermission();
         listenForUpdates(reg);
         onTokenRefresh();
-        firebase.onMessage();
 
         checkStatus(reg);
 

@@ -224,13 +224,18 @@ class FirebaseInterface {
 
   onTokenRefresh(callback) {
       this.messaging.onTokenRefresh(() => {
-          console.log("token refreshed");
         this.messaging.getToken().then((refreshedToken) => {
             callback(null, refreshedToken);
         })
         .catch((error) => {
             callback(error);
         });
+      });
+  }
+
+  onMessage(callback) {
+      this.messaging.onMessage(function(payload) {
+          callback(payload.notification);
       });
   }
 
