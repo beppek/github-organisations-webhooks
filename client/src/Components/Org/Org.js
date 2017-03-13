@@ -16,7 +16,8 @@ class Org extends Component {
             admin: false,
             hooks: false,
             loading: true,
-            subs: []
+            subs: [],
+            listeners: []
         };
         this.uid = localStorage.getItem("uid");
         this.org = props.params.org;
@@ -39,7 +40,11 @@ class Org extends Component {
                 resolve();
             })
             .catch((error) => {
-                firebase.getData(`orgs/${this.org}/hook/events`, (data) => {
+                let hookRef = `orgs/${this.org}/hook/events`;
+                this.setState({
+                    listeners: this.state.listeners.concat([hookRef])
+                });
+                firebase.getData(hookRef, (data) => {
                     if (data.length < 1) {
                         this.setState({
                             admin: false
@@ -56,7 +61,11 @@ class Org extends Component {
             });
         }));
         promises.push(new Promise((resolve, reject) => {
-            firebase.getData(`users/${this.uid}/subscriptions/${this.org}/events`, (data) => {
+            let subsRef = `users/${this.uid}/subscriptions/${this.org}/events`;
+            this.setState({
+                listeners: this.state.listeners.concat([subsRef])
+            });
+            firebase.getData(subsRef, (data) => {
                 this.setState({
                     subs: data
                 });
@@ -70,7 +79,9 @@ class Org extends Component {
     }
 
     componentWillUnmount() {
-        firebase.detach(`users/${this.uid}/subscriptions/${this.org}/events`);
+        this.state.listeners.forEach((listener) => {
+            firebase.detach(listener);
+        });
     }
 
     handleDelete(hookId) {

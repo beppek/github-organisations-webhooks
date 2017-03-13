@@ -46,7 +46,6 @@ class Github {
                     resolve(data);
                 })
                 .catch((error) => {
-                    console.log(error);
                     reject(error);
                 });
         });
@@ -61,7 +60,6 @@ class Github {
                     resolve();
                 })
                 .catch((error) => {
-                    console.log(error);
                     reject(error);
                 });
         });

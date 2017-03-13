@@ -1,5 +1,5 @@
 # App
-A simple Github Organisation subscription app that makes calls to the github api and stores the data in firebase.
+A simple Github Organisation subscription app that makes calls to the github api and stores the data in firebase. Optimised and built for mobile. Save to homescreen to get native-like feel.
 
 ## Getting started
 The app is deployed at: https://beppek-github-webhooks.firebaseapp.com
