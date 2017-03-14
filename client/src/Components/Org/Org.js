@@ -4,7 +4,6 @@ import CircularProgress from "material-ui/CircularProgress";
 import HookForm from "../layout/HookForm/HookForm";
 import HookInfo from "../layout/HookInfo/HookInfo";
 import firebase from "../../Interfaces/Firebase";
-import Snackbar from "material-ui/Snackbar";
 
 import Notification from "../layout/Notification/Notification";
 

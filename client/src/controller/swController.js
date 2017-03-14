@@ -10,8 +10,6 @@ function register() {
       console.log("sw and push is supported");
       window.addEventListener("load", function() {
           navigator.serviceWorker.register("/service-worker.js").then(function(reg) {
-          // navigator.serviceWorker.register("/firebase-messaging-sw.js").then(function(reg) {
-          // requestPermission();
           listenForUpdates(reg);
           onTokenRefresh();
 
@@ -39,13 +37,14 @@ function requestPermission() {
     });
 }
 
+/**
+ * Saves message token for push notifications from cloud functions
+ */
 function getMessageToken() {
     firebase.getMsgToken().then((token) => {
       let uid = localStorage.getItem("uid");
-      console.log(uid);
       if (uid !== null) {
         firebase.saveIfNotExists(`users/${uid}/notificationTokens/${token}`, true);
-        console.log(token);
       }
     })
     .catch((error) => {
@@ -57,24 +56,33 @@ function getMessageToken() {
     });
 }
 
+/**
+ * TODO: Useless right now. Will handle installing of updates
+ */
 function listenForUpdates(reg) {
     reg.addEventListener("updatefound", function() {
         console.log("installing update");
     });
 }
 
+/**
+ * TODO: useless right now. Will handle token refresh
+ */
 function onTokenRefresh() {
     firebase.onTokenRefresh((error, token) => {
         if (error) {
             console.log(error);
             return;
         } else {
-            console.log(token);
             return;
         }
     });
 }
 
+/**
+ * TODO: Useless right now. Will handle status of service worker
+ * @param {*registration} reg
+ */
 function checkStatus(reg) {
     if (reg.installing) {
           console.log("installing");

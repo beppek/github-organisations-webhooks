@@ -10,6 +10,18 @@ class EventCard extends Component {
     this.props.handleDelete(this.props.event);
   }
 
+  getEventType(eventType) {
+    switch (eventType) {
+      case "gollum":
+        return "wiki pages";
+      case "pull_request":
+        return "pull request";
+
+      default:
+        return eventType;
+    }
+  }
+
   render() {
     let border = "solid 1px";
     if (this.props.event.seen) {
@@ -36,10 +48,11 @@ class EventCard extends Component {
         verticalAlign: "middle"
       }
     };
+    let eventType = this.getEventType(this.props.event.eventType);
     return (
       <Card style={styles.card}>
         <CardHeader
-          title={`${this.props.event.sender.login} ${this.props.event.action} ${this.props.event.eventType} event`}
+          title={`${this.props.event.sender.login} ${this.props.event.action} ${eventType} event`}
           subtitle={`in ${this.props.event.organization.login}/${this.props.event.repository.name}`}
           avatar={this.props.event.sender.avatar_url}
           textStyle={styles.cardHeader}
@@ -47,7 +60,7 @@ class EventCard extends Component {
         <CardText style={styles.cardText}>
           <Avatar style={styles.img} src={this.props.event.organization.avatar_url} />
           <FlatButton
-            label={`Go to the repo`}
+            label={"Go to the repo"}
             href={this.props.event.repository.html_url}
             primary={true}
             icon={<FontIcon className="fa fa-arrow-right" />}

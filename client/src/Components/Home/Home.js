@@ -28,7 +28,9 @@ class Home extends Component {
                 promises.push(new Promise((resolve, reject) => {
                     let eventRef = `events/${eventId}`;
                     firebase.getData(eventRef, (event) => {
-                        console.log(event);
+                        if (!event.action) {
+                            event.action = "triggered";
+                        }
                         event.seen = events[eventId].seen;
                         event.id = eventId;
                         this.setState({

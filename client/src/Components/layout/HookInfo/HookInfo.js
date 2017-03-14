@@ -61,10 +61,22 @@ class HookInfo extends Component {
         let toggles = [];
         this.props.hooks.forEach((hook) => {
             hook.events.forEach((eventType, i) => {
+                var eventName;
+                switch (eventType) {
+                    case "gollum":
+                        eventName = "Wiki pages";
+                        break;
+                    case "pull_request":
+                        eventName = "Pull request";
+                        break;
+                    default:
+                        eventName = eventType[0].toUpperCase() + eventType.slice(1);
+                        break;
+                }
                 let toggled = this.state.subs.indexOf(eventType) > -1;
                 toggles.push(
                     <Toggle
-                        label={eventType}
+                        label={eventName}
                         defaultToggled={toggled}
                         key={eventType}
                         style={styles.toggle}

@@ -1,3 +1,13 @@
+/**
+ * Firebase Cloud Functions
+ *
+ * @exports.githubPayload: Accepts payload from github webhooks.
+ * @exports.webhook: Deletes webhooks and removes from subscribers.
+ * @exports.sendNotification: Sends notifications.
+ *
+ * @author: beppek
+ */
+
 "use strict";
 const iFirebase = require("./interfaces/Firebase");
 const functions = require("firebase-functions");

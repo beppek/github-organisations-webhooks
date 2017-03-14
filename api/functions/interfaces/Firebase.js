@@ -1,3 +1,9 @@
+/**
+ * Firebase interface for Firebase Cloud Functions
+ *
+ * @author beppek
+ */
+
 const admin = require("firebase-admin");
 
 class Firebase {

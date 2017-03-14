@@ -25,6 +25,9 @@ class Notification extends Component {
       if (!this.state.register) {
         let eventRef = `events/${eventId}`;
         firebase.getDataOnce(eventRef).then((event) => {
+          if (!event.action) {
+            event.action = "triggered";
+          }
             event.seen = false;
             event.id = eventId;
             this.setState({
