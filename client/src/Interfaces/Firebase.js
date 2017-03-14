@@ -144,6 +144,19 @@ class FirebaseInterface {
         });
     }
 
+    addSubscriber(org, sub) {
+        return new Promise((resolve, reject) => {
+            console.log(sub);
+            let dbRef = firebase.database().ref(`orgs/${org}/hook/subscribers`).child(sub);
+            dbRef.set({subscribing: true}).then(() => {
+                resolve();
+            })
+            .cath((error) => {
+                reject();
+            });
+        });
+    }
+
     saveIfNotExists(collection, data) {
         return new Promise((resolve, reject) => {
             const dbRef = firebase.database().ref(collection);

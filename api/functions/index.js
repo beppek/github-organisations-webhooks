@@ -63,13 +63,26 @@ exports.sendNotification = functions.database.ref("users/{uid}/events/{eventId}"
       return console.log("There are no notification tokens to send to.");
     }
     console.log("There are", tokensSnapshot.numChildren(), "tokens to send notifications to.");
-    console.log("Fetched eventData", eventData);
 
+    switch (eventData.eventType) {
+      case "gollum":
+        eventData.eventType = "wiki pages";
+        break;
+      case "pull_request":
+        eventData.eventType = "pull request";
+        break;
+      default:
+        break;
+    }
+
+    if (!eventData.action) {
+      eventData.action = "triggered";
+    }
 
     const payload = {
       notification: {
-        title: `New ${eventData.eventType} event. Action: ${eventData.action}`,
-        body: `${eventData.sender.login} triggered the event in ${eventData.organization.login}.`,
+        title: `${eventData.sender.login} ${eventData.action} ${eventData.eventType} event.`,
+        body: `in ${eventData.organization.login}/${eventData.repository.name}.`,
         icon: eventData.sender.avatar_url,
         click_action: "https://beppek-github-webhooks.firebaseapp.com/"
       }

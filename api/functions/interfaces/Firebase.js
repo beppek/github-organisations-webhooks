@@ -26,7 +26,7 @@ class Firebase {
             let subscribersRef = `orgs/${org}/hook/subscribers`;
             this.getData(subscribersRef).then((subscribers) => {
 
-                subscribers.forEach((subscriber) => {
+                for (var subscriber in subscribers) {
 
                     let subRef = `users/${subscriber}`;
                     this.getData(subRef).then((user) => {
@@ -53,7 +53,7 @@ class Firebase {
                         reject(error);
                     });
 
-                });
+                }
 
             })
             .catch((error) => {
@@ -90,10 +90,10 @@ class Firebase {
     deleteWebhook(org) {
         let ref = `orgs${org}/hook`;
         this.getData(ref).then((hookRef) => {
-            hookRef.subscribers.forEach((sub) => {
+            for (var sub in hookRef.subscribers) {
                 let subRef = `users/${sub}/subscriptions/${org}`;
                 this.deleteRef(subRef);
-            });
+            }
             this.deleteRef(ref);
         });
     }

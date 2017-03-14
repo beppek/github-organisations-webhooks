@@ -103,6 +103,7 @@ class Org extends Component {
     }
 
     handleSave(events) {
+        firebase.addSubscriber(this.org, this.uid).then(() =>{console.log("success");}).catch((error) => {console.log(error);});
         firebase.update(`users/${this.uid}/subscriptions/${this.org}/events`, events).then(() => {
             this.setState({
                 subs: events,
@@ -118,7 +119,8 @@ class Org extends Component {
 
     handleTouchTap(events) {
         Github.createHook(this.org, this.token, events).then((data) => {
-            firebase.addHook(this.org, {id: data.body.id, events: data.body.events, subscribers:[this.uid]}, this.uid);
+            firebase.addHook(this.org, {id: data.body.id, events: data.body.events}, this.uid);
+            firebase.addSubscriber(this.org, this.uid);
             this.setState({
                 hooks: true,
                 hookData: [data.body]
