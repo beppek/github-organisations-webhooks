@@ -12,3 +12,8 @@ Your events will show up in the home page's feed.
 
 ## Service worker
 The app uses a service worker and will ask for permission to push notifications in the browser. To get push notifications when you are not in the app you will need to accept. The service worker will cache the static files but can not cache the content requested from Firebase or Github.
+
+## Project status
+The app is functional. Extensive testing is still needed as limited resources has held the testing back. More users are needed to fully test the functionality of the app. Development was rushed towards the end leaving a few console logs and most importantly a not completely finished serive worker controller. Left to do in regards to service worker is to handle update to the page or service worker and prompt user to reload the page.
+
+Next iteration would allow users to view events on a per organisation basis.

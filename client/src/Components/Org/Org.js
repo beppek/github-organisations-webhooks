@@ -102,7 +102,7 @@ class Org extends Component {
     }
 
     handleSave(events) {
-        firebase.addSubscriber(this.org, this.uid).then(() =>{console.log("success");}).catch((error) => {console.log(error);});
+        firebase.addSubscriber(this.org, this.uid);
         firebase.update(`users/${this.uid}/subscriptions/${this.org}/events`, events).then(() => {
             this.setState({
                 subs: events,

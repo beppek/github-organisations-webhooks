@@ -16,7 +16,6 @@ class EventCard extends Component {
         return "wiki pages";
       case "pull_request":
         return "pull request";
-
       default:
         return eventType;
     }

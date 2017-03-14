@@ -13,7 +13,7 @@ const backIcon = <FontIcon className="fa fa-arrow-left"/>;
 
 class Menu extends Component {
 
-    constructor(props) {
+    constructor() {
         super();
         this.state = {
             selectedIndex: 1,

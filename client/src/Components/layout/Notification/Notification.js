@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import firebase from "../../../Interfaces/Firebase";
-import Snackbar from 'material-ui/Snackbar';
+import Snackbar from "material-ui/Snackbar";
 import {browserHistory} from "react-router";
 
 class Notification extends Component {
@@ -70,7 +70,7 @@ class Notification extends Component {
         {this.state.event && <Snackbar
           open={this.state.open}
           message={`${this.state.event.sender.login} ${this.state.event.action} ${this.state.event.eventType} event in ${this.state.event.organization.login}`}
-          autoHideDuration={30000}
+          autoHideDuration={3000}
           onRequestClose={() => this.handleRequestClose()}
           action={"View events"}
           onActionTouchTap={() => this.handleTouchTap()}
